@@ -23,13 +23,25 @@
         </p>
       </div>
     </div>
+    <p class="mt-1 text-gray-500 text-sm">
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800"
+      >
+        Entfernung {{ gasStation.dist }} km
+      </span>
+      <span
+        class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800"
+      >
+        Preis {{ gasStation[sortParams.type] }} €
+      </span>
+    </p>
   </li>
 </template>
 
 <script>
 export default {
   components: {},
-  props: ["gasStation"],
+  props: ["gasStation", "sortParams"],
   data() {
     return {};
   },

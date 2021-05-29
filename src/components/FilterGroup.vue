@@ -84,13 +84,19 @@ export default {
     CheckIcon,
     SelectorIcon,
   },
+
   props: ["optionData"],
   setup(props) {
     const selected = ref(props.optionData.options[0]);
-
     return {
       selected,
     };
+  },
+  watch: {
+    // whenever question changes, this function will run
+    selected() {
+      this.$emit("filterEvent", this.selected.param, this.selected.value);
+    },
   },
 };
 </script>
