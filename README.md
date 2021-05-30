@@ -3,6 +3,8 @@ This project uses geolocation to display gas stations around the user (only work
 
 The user is able to filter and sort the data so he can find a cheap gas station in his distance.
 
+=> Check out the project on github pages https://finnstax.github.io/gas-station-finder/
+
 # Setup
 ## API Key
 This project uses the free api from Tankerkoenig (https://creativecommons.tankerkoenig.de/). To build this repository you need to get an api key for their service and create a .env file in the root directory of this project with the following contents
