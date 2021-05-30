@@ -8,7 +8,7 @@
     >
 
     <button
-      v-if="!location"
+      v-if="!location && !errorStr"
       @click="locateMe()"
       type="button"
       class="mt-1 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
@@ -22,7 +22,7 @@
       v-if="errorStr"
       @click="locateMe"
       type="button"
-      class="mt-1 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      class="mt-1 inline-flex items-center px-4 py-2 border opacity-50 cursor-default hover:none border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Fehlerhafter Standort
       <ExclamationCircleIcon class="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />

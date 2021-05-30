@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <dl class="grid grid-cols-1 sm:grid-cols-1 pt-5">
+      <dl class="grid grid-cols-1 sm:grid-cols-1 pt-2">
         <div class="relative verflow-hidden h-9">
           <dt>
             <div class="absolute bg-gray-700 rounded-md p-1">
@@ -56,6 +56,12 @@
           </dd>
         </div>
       </dl>
+      <button
+        type="button"
+        class="inline-flex mt-1 items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >
+        Navigation
+      </button>
     </li>
   </a>
 </template>
