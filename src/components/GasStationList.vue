@@ -1,36 +1,49 @@
 <template>
-  <div class="flex pb-6">
-    <GeolocationButton @geoSuccessful="updateLatLong" class="pr-4" />
+  <div class="flex gap-2 gap-y-3 xl:gap-5 flex-wrap">
+    <GeolocationButton class="w-screen md:w-auto" @geoSuccessful="updateLatLong" />
     <FilterGroup
+      class="w-24"
       @filterEvent="updateParam"
-      class="pr-4 w-1/6"
       :optionData="fuelOptions"
     />
     <FilterGroup
+      class="w-24"
       @filterEvent="updateParam"
-      class="pr-4 w-1/6"
       :optionData="rangeOptions"
     />
     <FilterGroup
+      class="w-36"
       @filterEvent="updateParam"
-      class="pr-4 w-1/6"
       :optionData="sortingOptions"
     />
-    <Toggle class="ml-5 self-end mb-2" />
+    <Toggle @toggleVisiblity="updateParam" />
   </div>
-  <ul class="grid grid-cols-1 py-6 gap-6 sm:grid-cols-2 lg:grid-cols-5">
+  <ul
+    class="grid grid-cols-1 py-6 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+  >
     <GasStation
-      v-for="gasStation in gasStations"
+      v-for="gasStation in filteredGasStations.slice(0, this.limit)"
       :key="gasStation.id"
       :gasStation="gasStation"
       :sortParams="sortParams"
     />
   </ul>
+  <div class="flex justify-center pt-10">
+    <button
+      v-if="limit < this.filteredGasStations.length"
+      @click="limit += 10"
+      type="button"
+      class="center inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      <PlusCircleIcon class="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
+      Mehr anzeigen
+    </button>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
-import {} from "@heroicons/vue/solid";
+import { PlusCircleIcon } from "@heroicons/vue/solid";
 import GasStation from "./GasStation.vue";
 import FilterGroup from "./FilterGroup.vue";
 import Toggle from "./Toggle.vue";
@@ -41,10 +54,12 @@ export default {
     GasStation,
     FilterGroup,
     Toggle,
+    PlusCircleIcon,
     GeolocationButton,
   },
   data() {
     return {
+      limit: 20,
       apiParams: {
         lat: 53.5499492,
         long: 9.990664,
@@ -54,8 +69,9 @@ export default {
       },
       sortParams: {
         type: "e5",
-        sort: "dist",
+        sort: "price",
         rad: 5,
+        showOnlyOpen: true,
       },
       publicToken: process.env.VUE_APP_TOTALLY_NOT_AN_API_KEY,
       gasStations: [],
@@ -71,8 +87,8 @@ export default {
       sortingOptions: {
         label: "Sortierung",
         options: [
-          { id: 1, name: "Preis", value: "price", param: "sort" },
-          { id: 2, name: "Entfernung", value: "dist", param: "sort" },
+          { id: 2, name: "Preis", value: "price", param: "sort" },
+          { id: 1, name: "Entfernung", value: "dist", param: "sort" },
         ],
       },
       rangeOptions: {
@@ -88,10 +104,45 @@ export default {
     };
   },
 
+  computed: {
+    filteredGasStations() {
+      return this.filterAndSortGasStations();
+    },
+  },
   methods: {
     updateParam(param, value) {
       this.sortParams[param] = value;
-      //this.getGasStationData();
+    },
+    filterAndSortGasStations() {
+      var filteredStations = this.gasStations;
+      Object.entries(this.sortParams).forEach(([key, value]) => {
+        switch (key) {
+          case "rad":
+            filteredStations = filteredStations.filter((x) => x.dist < value);
+            break;
+          case "sort":
+            if (value == "dist") {
+              filteredStations = filteredStations.sort(
+                (a, b) => a[value] - b[value]
+              );
+            }
+            if (value == "price") {
+              filteredStations = filteredStations.filter(
+                (x) => x[this.sortParams.type] !== null
+              );
+              filteredStations = filteredStations.sort(
+                (a, b) => a[this.sortParams.type] - b[this.sortParams.type]
+              );
+            }
+            break;
+          case "showOnlyOpen":
+            if (value) {
+              filteredStations = filteredStations.filter((x) => x.isOpen);
+            }
+            break;
+        }
+      });
+      return filteredStations;
     },
     updateLatLong(pos) {
       this.apiParams.lat = pos.latitude;

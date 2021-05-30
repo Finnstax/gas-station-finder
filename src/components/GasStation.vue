@@ -1,6 +1,6 @@
 <template>
-  <li class="col-span-1 bg-white rounded-lg shadow divide-y divide-gray-200">
-    <div class="w-full flex items-center justify-between p-6 space-x-6">
+  <li class="col-span-1 bg-white rounded-lg shadow p-6 pb-3">
+    <div class="w-full flex items-center justify-between space-x-6">
       <div class="flex-1 truncate">
         <div class="flex items-center space-x-3">
           <h3 class="lowercase text-gray-900 text-sm font-medium truncate">
@@ -23,24 +23,43 @@
         </p>
       </div>
     </div>
-    <p class="mt-1 text-gray-500 text-sm">
-      <span
-        class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-gray-100 text-gray-800"
-      >
-        Entfernung {{ gasStation.dist }} km
-      </span>
-      <span
-        class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800"
-      >
-        Preis {{ gasStation[sortParams.type] }} €
-      </span>
-    </p>
+
+    <dl class="grid grid-cols-1 sm:grid-cols-1 pt-5">
+      <div class="relative bg-white verflow-hidden h-9">
+        <dt>
+          <div class="absolute bg-gray-700 rounded-md p-1">
+            <FlagIcon class="h-4 w-4 text-white" aria-hidden="true" />
+          </div>
+        </dt>
+        <dd class="ml-8 flex items-baseline">
+          <p class="text-l font-semibold text-gray-900">
+            {{ gasStation.dist }}km
+          </p>
+        </dd>
+      </div>
+      <div class="relative bg-white verflow-hidden h-9">
+        <dt>
+          <div class="absolute bg-gray-700 rounded-md p-1">
+            <CurrencyEuroIcon class="h-4 w-4 text-white" aria-hidden="true" />
+          </div>
+        </dt>
+        <dd class="ml-8 flex items-baseline">
+          <p class="text-l font-semibold text-gray-900">
+            {{ gasStation[sortParams.type] }}
+            <span class="text-gray-400 text-xs truncate capitalize">
+              ({{ sortParams.type }})
+            </span>
+          </p>
+        </dd>
+      </div>
+    </dl>
   </li>
 </template>
 
 <script>
+import { CurrencyEuroIcon, FlagIcon } from "@heroicons/vue/solid";
 export default {
-  components: {},
+  components: { FlagIcon, CurrencyEuroIcon },
   props: ["gasStation", "sortParams"],
   data() {
     return {};

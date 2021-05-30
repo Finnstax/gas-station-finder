@@ -37,12 +37,12 @@
 
     <header class="bg-white shadow">
       <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold text-gray-900">Tankstellen</h1>
+        <h1 class="text-3xl font-bold text-gray-900">Tankstellen-Finder</h1>
       </div>
     </header>
     <main>
       <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div class="px-4 py-6 sm:px-0">
+        <div class="px-4 sm:px-0">
           <GasStationList />
         </div>
       </div>
@@ -55,7 +55,7 @@ import { Disclosure } from "@headlessui/vue";
 import {} from "@heroicons/vue/outline";
 import GasStationList from "./components/GasStationList.vue";
 
-const navigation = ["Tankstellen", "Über"];
+const navigation = ["Tankstellen-Finder"];
 export default {
   components: {
     Disclosure,
