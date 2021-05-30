@@ -1,6 +1,9 @@
 <template>
   <div class="flex gap-2 gap-y-3 xl:gap-5 flex-wrap">
-    <GeolocationButton class="w-screen md:w-auto" @geoSuccessful="updateLatLong" />
+    <GeolocationButton
+      class="w-screen md:w-auto"
+      @geoSuccessful="updateLatLong"
+    />
     <FilterGroup
       class="w-24"
       @filterEvent="updateParam"
@@ -26,6 +29,7 @@
       :key="gasStation.id"
       :gasStation="gasStation"
       :sortParams="sortParams"
+      :geoPos="currentGeoPos"
     />
   </ul>
   <div class="flex justify-center pt-10">
@@ -59,6 +63,7 @@ export default {
   },
   data() {
     return {
+      currentGeoPos: '',
       limit: 20,
       apiParams: {
         lat: 53.5499492,
@@ -147,6 +152,7 @@ export default {
     updateLatLong(pos) {
       this.apiParams.lat = pos.latitude;
       this.apiParams.long = pos.longitude;
+      this.currentGeoPos = pos;
       this.getGasStationData();
     },
     getGasStationData() {
